@@ -1,0 +1,11 @@
+{
+  "Jellyfin": {
+    "Username": "",
+    "Password": "",
+    "Hostname": ""
+  },
+  "JF2SMS": {
+    "DownloadDir": "C:\\SMSMedia",
+    "FFMpegExecutable": "C:\\Tools\\ffmpeg.exe"
+  }
+}

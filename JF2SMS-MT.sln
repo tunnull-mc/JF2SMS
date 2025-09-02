@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JF2SMS-MT", "JF2SMS-MT.csproj", "{A2CF27D1-1E26-4232-B961-330A3581CF43}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A2CF27D1-1E26-4232-B961-330A3581CF43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2CF27D1-1E26-4232-B961-330A3581CF43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2CF27D1-1E26-4232-B961-330A3581CF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2CF27D1-1E26-4232-B961-330A3581CF43}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E33121B-773C-4301-88D7-F5FCB9664649}
+	EndGlobalSection
+EndGlobal
