@@ -65,7 +65,6 @@ while (true)
             break;
     }
     ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
-    Console.Clear();
     if (consoleKeyInfo.Key == ConsoleKey.DownArrow)
     {
         if (CurrentPosition <= Chunks[ChunkPosition].Length - 2)
@@ -75,11 +74,6 @@ while (true)
         else if (CurrentPosition >= Chunks[ChunkPosition].Length - 2)
         {
             CurrentPosition = 0;
-        }
-        else
-        {
-            Console.WriteLine("EOL");
-
         }
     }
     if (consoleKeyInfo.Key == ConsoleKey.UpArrow)
@@ -95,11 +89,6 @@ while (true)
         else if (CurrentPosition >= Chunks[ChunkPosition].Length)
         {
             CurrentPosition = Chunks[ChunkPosition].Length - 2;
-        }
-        else
-        {
-            Console.WriteLine("EOL");
-
         }
     }
     if (consoleKeyInfo.Key == ConsoleKey.RightArrow)
@@ -236,145 +225,17 @@ void UpdateMenu(Dictionary<string, string> MenuItems)
     }
     if (ChunkPosition == Chunks.Length - 1)
     {
-        Console.WriteLine("<- Last Listing");
+        Console.WriteLine("← Last Listing");
 
     }
     else if (ChunkPosition != 0 | ChunkPosition == Chunks.Length - 3)
     {
-        Console.WriteLine("<- Last Listing | -> Next Listing");
+        Console.WriteLine("← Last Listing | → Next Listing");
     }
     else if (ChunkPosition == 0)
     {
-        Console.WriteLine("-> Next Listing");
+        Console.WriteLine("→ Next Listing");
     }
     Console.CursorTop = Console.WindowTop + Console.WindowHeight - 1;
     Console.Write($"↑/↓ Move Cursor | ←/→ Switch Page | ↵ Select | ⌫  Back");
 }
-
-/*
-switch(args[0])
-{
-    case "queue":
-        switch(args[1])
-        {
-            case "create":
-                File.Create("queue.dls");
-                break;
-            case "add":
-                if(!File.Exists("queue.dls"))
-                {
-                    Console.WriteLine("ERROR: Queue has not been created.");
-                    break;
-                }
-                StringBuilder SB = new StringBuilder();
-                SB.Append(File.ReadAllText("queue.dls"));
-                if (!string.IsNullOrEmpty(SB.ToString()))
-                {
-                    SB.Append("\r\n");
-                }
-                switch (args[2])
-                {
-                    case "movie":
-                        SB.Append(
-                            args[2] +
-                            "+" +
-                            $"\"{args[3]}\"" +
-                            $";"
-                            );
-                        File.WriteAllText("queue.dls", SB.ToString());
-                        break;
-                    case "show":
-                        var SeasonEpisodeSelector = args[4].Split(':');
-                        var SeasonIndex = "";
-                        int EpisodeIndex = 0;
-                        SeasonIndex = SeasonEpisodeSelector[0];
-                        if (SeasonEpisodeSelector.Length > 1)
-                        {
-                            EpisodeIndex = Int32.Parse(SeasonEpisodeSelector[1]);
-                            SB.Append(
-                                args[2] +
-                                "+" +
-                                $"\"{args[3]}\"" +
-                                "+" +
-                                SeasonIndex +
-                                "/" +
-                                EpisodeIndex +
-                                $";"
-                                );
-                        }
-                        else
-                        {
-                            SB.Append(
-                                args[2] +
-                                "+" +
-                                $"\"{args[3]}\"" +
-                                "+" +
-                                SeasonIndex +
-                                "/" +
-                                "a" +
-                                $";"
-                                );
-                        }
-                        File.WriteAllText("queue.dls", SB.ToString());
-                        break;
-                }
-                break;
-            case "clear":
-                File.Delete("queue.dls");
-                break;
-        }
-        break;
-    case "download":
-        switch(args[1])
-        {
-            case "movie":
-                SMSDirectory = $"{SMSDirectory}\\Movies";
-                var MovieName = args[2];
-                var MovieData = JellyfinAPI.Get.Movie.Metadata(JellyfinUri, ApiKey, MovieName).Result.SearchHints.First();
-                var MovieDestination = $"{IllegalCharRegex.Replace(MovieData.Name, "-")} ({MovieData.ProductionYear})";
-                var MovieStream = JellyfinAPI.Get.Movie.Stream(JellyfinUri, ApiKey, MovieData.Id);
-                FFMpeg.Transcode(MovieStream.ToString(), $"{SMSDirectory}\\{MovieDestination}");
-                break;
-            case "show":
-                SMSDirectory = $"{SMSDirectory}\\Shows";
-                var SeriesName = args[2];
-                var SeasonEpisodeSelector = args[3].Split(':');
-                var SeasonIndex = "";
-                int EpisodeIndex = 0;
-                SeasonIndex = SeasonEpisodeSelector[0];
-                if (SeasonEpisodeSelector.Length > 1)
-                {
-                    EpisodeIndex = Int32.Parse(SeasonEpisodeSelector[1]) - 1;
-                }
-                else
-                {
-                    EpisodeIndex = 0;
-                }
-                var SeriesData = JellyfinAPI.Get.Series.Metadata(JellyfinUri, ApiKey, SeriesName).Result;
-                var EpisodeList = JellyfinAPI.Get.Series.Episodes(JellyfinUri, ApiKey, SeriesData.SearchHints.First().Id, SeasonIndex).Result;
-                if (!Directory.Exists($"{SMSDirectory}\\{EpisodeList.Items.First().SeriesName}\\{EpisodeList.Items.First().SeasonName}"))
-                {
-                    Directory.CreateDirectory($"{SMSDirectory}\\{EpisodeList.Items.First().SeriesName}\\{EpisodeList.Items.First().SeasonName}");
-                }
-                if(EpisodeIndex == 0)
-                {
-                    foreach (var Episode in EpisodeList.Items)
-                    {
-                        var SeriesDestination = $"{Episode.SeriesName}\\{Episode.SeasonName}\\E{Episode.IndexNumber:D2} - {IllegalCharRegex.Replace(Episode.Name, "-")}";
-                        var EpisodeStream = JellyfinAPI.Get.Series.Episode.Stream(JellyfinUri, ApiKey, Episode.Id);
-                        FFMpeg.Transcode(EpisodeStream.ToString(), $"{SMSDirectory}\\{SeriesDestination}");
-                    }
-                }
-                else
-                {
-                    var SeriesDestination = $"{EpisodeList.Items[EpisodeIndex].SeriesName}\\{EpisodeList.Items[EpisodeIndex].SeasonName}\\E{EpisodeList.Items[EpisodeIndex].IndexNumber:D2} - {IllegalCharRegex.Replace(EpisodeList.Items[EpisodeIndex].Name, "-")}";
-                    var EpisodeStream = JellyfinAPI.Get.Series.Episode.Stream(JellyfinUri, ApiKey, EpisodeList.Items[EpisodeIndex].Id);
-                    FFMpeg.Transcode(EpisodeStream.ToString(), $"{SMSDirectory}\\{SeriesDestination}");
-
-                }
-
-                break;
-        }
-        break;
-}
-*/
